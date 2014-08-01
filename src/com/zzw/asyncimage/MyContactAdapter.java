@@ -27,7 +27,7 @@ public class MyContactAdapter extends BaseAdapter {
 	
 	private ContactService service;
 
-	// 自己定义的构造函数
+	// 构造函数
 	public MyContactAdapter(Context context, List<Contact> contacts) {
 		this.context = context;
 		this.contacts = contacts;

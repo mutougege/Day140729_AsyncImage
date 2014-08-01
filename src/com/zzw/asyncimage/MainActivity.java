@@ -37,7 +37,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		mListView = (ListView) findViewById(R.id.listview);
-		
 		ContactService service = new ContactService(getApplicationContext());
 		service.getContactAll(mHandler);
 	}
