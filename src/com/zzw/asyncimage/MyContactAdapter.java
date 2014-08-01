@@ -27,7 +27,7 @@ public class MyContactAdapter extends BaseAdapter {
 	
 	private ContactService service;
 
-	// ¹¹Ôìº¯Êı
+	// æ„é€ å‡½æ•°
 	public MyContactAdapter(Context context, List<Contact> contacts) {
 		this.context = context;
 		this.contacts = contacts;
@@ -53,9 +53,9 @@ public class MyContactAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// 1»ñÈ¡item,ÔÙµÃµ½¿Ø¼ş
-		// 2 »ñÈ¡Êı¾İ
-		// 3°ó¶¨Êı¾İµ½item
+		// 1è·å–item,å†å¾—åˆ°æ§ä»¶
+		// 2 è·å–æ•°æ®
+		// 3ç»‘å®šæ•°æ®åˆ°item
 		View view = null;
 		if (convertView != null) {
 			view = convertView;
@@ -68,7 +68,7 @@ public class MyContactAdapter extends BaseAdapter {
 
 		Contact contact = contacts.get(position);
 
-		// Òì²½µÄ¼ÓÔØÍ¼Æ¬
+		// AsyncTaskå¼‚æ­¥çš„åŠ è½½å›¾ç‰‡
 		service.asyncloadImage(iv_header, contact.image);
 		tv_name.setText(contact.name);
 
