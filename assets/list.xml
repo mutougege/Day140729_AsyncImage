@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contacts>
+	<contact id="1">
+		<name>张飞</name>
+		<image src="http://img0.bdstatic.com/img/image/shouye/dengni37.jpg"/>
+	</contact>		
+	<contact id="2">
+		<name>赵薇</name>
+		<image src="http://img0.bdstatic.com/img/image/shouye/mnxh-11406760056.jpg"/>
+	</contact>	
+	<contact id="3">
+		<name>黎明</name>
+		<image src="http://img0.bdstatic.com/img/image/shouye/dengni47.jpg"/>
+	</contact>		
+	<contact id="4">
+		<name>朱德</name>
+		<image src="http://img0.bdstatic.com/img/image/shouye/fsmhsbjntzz.jpg"/>
+	</contact>	
+	<contact id="5">
+		<name>冯巩</name>
+		<image src="http://img0.bdstatic.com/img/image/shouye/mnqz-6643985325.jpg"/>
+	</contact>			
+</contacts>
