@@ -7,6 +7,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +26,14 @@ public class MyContactAdapter extends BaseAdapter {
 	private ImageView iv_header;
 	private TextView tv_name;
 	
-	private ContactService service;
+	private ImageLoader imageLoader;
 
 	// 构造函数
 	public MyContactAdapter(Context context, List<Contact> contacts) {
 		this.context = context;
 		this.contacts = contacts;
-		service = new ContactService(context);
-		mInflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		imageLoader = new ImageLoader(context);
+		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -69,7 +69,8 @@ public class MyContactAdapter extends BaseAdapter {
 		Contact contact = contacts.get(position);
 
 		// AsyncTask异步的加载图片
-		service.asyncloadImage(iv_header, contact.image);
+		Log.i("ddd", contact.image);
+		imageLoader.download(contact.image, iv_header, 0);
 		tv_name.setText(contact.name);
 
 		return view;

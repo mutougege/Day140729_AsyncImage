@@ -29,12 +29,9 @@ public class ContactService {
 	
 	private Context context;
 	
-	private File cache;
-
 	public ContactService(Context context) {
 		this.context = context;
 	}
-
 	
 	/**
 	 * 从服务器上获取数据
@@ -65,47 +62,6 @@ public class ContactService {
 		}.start();
 
 	}
-	
-
-    public void asyncloadImage(ImageView iv_header, String path) {  
-        AsyncImageTask task = new AsyncImageTask(iv_header);  
-        task.execute(path);  
-    }  
-  
-    private final class AsyncImageTask extends AsyncTask<String, Integer, Uri> {
-  
-        private ImageView iv_header;  
-  
-        public AsyncImageTask(ImageView iv_header) {  
-            this.iv_header = iv_header;  
-        }  
-  
-        /** 
-         * 将在onPreExecute 方法执行后马上执行，该方法运行在后台线程中。 
-         * 这里将主要负责执行那些很耗时的后台计算工作。可以调用  
-         * publishProgress方法来更新实时的任务进度。该方法是抽象方法， 
-         * 子类必须实现。  
-         */ 
-        @Override  
-        protected Uri doInBackground(String... params) {  
-            try {  
-                return getImageURI(params[0]);  
-            } catch (Exception e) {  
-                e.printStackTrace();  
-            }  
-            return null;  
-        }
-  
-        // 这个放在ui线程中执行  
-        @Override  
-        protected void onPostExecute(Uri result) {  
-            super.onPostExecute(result);   
-            // 完成图片的绑定  
-            if (iv_header != null && result != null) {  
-                iv_header.setImageURI(result);  
-            }  
-        }  
-    }
 
 	// 这里并没有下载图片下来，而是把图片的地址保存下来了
 	private List<Contact> xmlParser(InputStream is) throws Exception {
@@ -137,48 +93,5 @@ public class ContactService {
 			}
 		}
 		return contacts;
-	}
-
-	/*
-	 * 从网络上获取图片，如果图片在本地存在的话就直接拿，如果不存在再去服务器上下载图片 这里的path是图片的地址
-	 */
-	public Uri getImageURI(String path) throws Exception {
-		
-		//String name = MD5.getMD5(path) + path.substring(path.lastIndexOf("."));
-		String name = MD5.getMD5(path) +".bin";
-		
-		// 创建缓存目录，系统一运行就得创建缓存目录的，
-		cache = new File(Environment.getExternalStorageDirectory(), "cache");
-		if (!cache.exists()) {
-			cache.mkdirs();
-		}
-		
-		File file = new File(cache, name);
-		// 如果图片存在本地缓存目录，则不去服务器下载
-		if (file.exists()&&file.length()>0) {
-			return Uri.fromFile(file);// Uri.fromFile(path)这个方法能得到文件的URI
-		} else {
-			// 从网络上获取图片
-			URL url = new URL(path);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setConnectTimeout(5000);
-			conn.setRequestMethod("GET");
-			conn.setDoInput(true);
-			if (conn.getResponseCode() == 200) {
-
-				InputStream is = conn.getInputStream();
-				FileOutputStream fos = new FileOutputStream(file);
-				byte[] buffer = new byte[4*1024];
-				int len = 0;
-				while ((len = is.read(buffer)) != -1) {
-					fos.write(buffer, 0, len);
-				}
-				is.close();
-				fos.close();
-				// 返回一个URI对象
-				return Uri.fromFile(file);
-			}
-		}
-		return null;
 	}
 }
