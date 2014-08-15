@@ -9,21 +9,9 @@ import android.support.v4.util.LruCache;
 import android.text.TextUtils;
 import android.util.Log;
 
-/**
- * Cache-related fields and methods.
- * 
- * We use a hard and a soft cache. A soft reference cache is too aggressively cleared by the
- * Garbage Collector.
- * 
- *
- */
+
 public class ImageCache {
 
-    public static Bitmap sDefaultIcon;
-    public static Bitmap sDefaultIconBig;
-    public static Bitmap sDefaultBanner;
-    public static Bitmap sDefaultPortrait;
-    
     private static ImageCache imageCacheInstance;
     
     private static LruCache<String, Bitmap> lruCache;

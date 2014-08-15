@@ -36,10 +36,8 @@ public class ImageLoader {
 
 		Bitmap bitmap = memoryCache.getBitmapFromCache(url);
 		if (bitmap == null) {
-			Log.i(TAG, "bitmap == null");
 			asyncloadImage(url, imageView, imageType);
 		} else {
-			Log.i(TAG, "bitmap != null");
 			imageView.setImageBitmap(bitmap);
 		}
 	}
@@ -48,17 +46,17 @@ public class ImageLoader {
 		return true;
 	}
 	
-	public void asyncloadImage(String path, ImageView iv_header, int imageType) {  
-        AsyncImageTask task = new AsyncImageTask(iv_header);  
+	public void asyncloadImage(String path, ImageView imageView, int imageType) {  
+        AsyncImageTask task = new AsyncImageTask(imageView);  
         task.execute(path);  
     }  
   
     private final class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
   
-        private ImageView iv_header;  
+        private ImageView imageView;  
   
-        public AsyncImageTask(ImageView iv_header) {  
-            this.iv_header = iv_header;  
+        public AsyncImageTask(ImageView imageView) {  
+            this.imageView = imageView;  
         }  
   
         /** 
@@ -82,22 +80,25 @@ public class ImageLoader {
         protected void onPostExecute(Bitmap bitmap) {  
             super.onPostExecute(bitmap);   
             // 完成图片的绑定  
-            if (iv_header != null && bitmap != null) {  
-                iv_header.setImageBitmap(bitmap);
+            if (imageView != null && bitmap != null) {  
+            	imageView.setImageBitmap(bitmap);
             }  
         }  
     }
     
-    /*
-	 * 从网络上获取图片，如果图片在本地存在的话就直接拿，如果不存在再去服务器上下载图片 这里的path是图片的地址
-	 */
+    /**
+     * 从网络上获取图片，如果图片在本地存在的话就直接拿，如果不存在再去服务器上下载图片 
+     * 拿到的图片存入内存缓存和硬盘缓存
+     * @param path 图片的地址
+     * @return
+     * @throws Exception
+     */
 	public Bitmap getImageURI(String path) throws Exception {
 		
 		Bitmap bitemap = null;
-		//String name = MD5.getMD5(path) + path.substring(path.lastIndexOf("."));
 		String name = MD5.getMD5(path) +".bin";
 		
-		// 创建缓存目录，系统一运行就得创建缓存目录的，
+		// 创建缓存目录，系统一运行就创建缓存目录
 		SDcache = new File(Environment.getExternalStorageDirectory(), "cache");
 		if (!SDcache.exists()) {
 			SDcache.mkdirs();
@@ -128,6 +129,7 @@ public class ImageLoader {
 				while ((len = is.read(buffer)) != -1) {
 					fos.write(buffer, 0, len);
 				}
+				
 				bitemap = BitmapFactory.decodeStream(is);
 				memoryCache.addBitmapToCache(path, bitemap);
 				is.close();
